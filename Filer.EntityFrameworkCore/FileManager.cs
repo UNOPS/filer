@@ -1,6 +1,5 @@
 ﻿namespace Filer.EntityFrameworkCore
 {
-	using System;
 	using System.IO;
 	using System.Linq;
 	using Filer.Core;
@@ -12,7 +11,7 @@
 	public class FileManager : IFileManager
 	{
 		private readonly FileStoreContext dbContext;
-		
+
 		/// <summary>
 		/// Instantiates a new instance of the FileManage class.
 		/// </summary>
@@ -38,10 +37,11 @@
 		/// <param name="mimetype">Mime type of the file.</param>
 		/// <param name="data">File's payload.</param>
 		/// <param name="compressionFormat">Type of compression to apply to a file before saving it in the database.</param>
+		/// <param name="owner">Owner of the file.</param>
 		/// <returns>File instance.</returns>
-		public File SaveFile(string filename, string mimetype, byte[] data, CompressionFormat compressionFormat)
+		public File SaveFile(string filename, string mimetype, byte[] data, CompressionFormat compressionFormat, string owner)
 		{
-			var file = new File
+			var file = new File(owner)
 			{
 				Name = Path.GetFileName(filename),
 				Size = data.Length,
@@ -57,42 +57,6 @@
 			return file;
 		}
 
-		/// <summary>
-		/// Saves file in a temporary storage. Temporary storage will periodically be cleared.
-		/// </summary>
-		/// <param name="filename">Name of the file (including extension).</param>
-		/// <param name="mimetype">Mime type of the file.</param>
-		/// <param name="data">File's payload.</param>
-		/// <param name="uploaderUserId">Id of the user (from UserManagement database) who has uploaded the document.</param>
-		/// <param name="compressionFormat">Type of compression to apply to a file before saving it in the database.</param>
-		/// <returns>File instance.</returns>
-		public File SaveFileTemporarily(string filename, string mimetype, byte[] data, int uploaderUserId, CompressionFormat compressionFormat)
-		{
-			return this.SaveFile(filename, mimetype, data, compressionFormat);
-		}
-
-		/// <summary>
-		/// Decompresses file data and returns the original payload.
-		/// </summary>
-		/// <param name="file">File instance.</param>
-		/// <returns>Byte array.</returns>
-		/// <remarks>In case no compression has been applied, then the file data is returned 
-		/// directly without performing any decompression.</remarks>
-		public byte[] DecompressFile(File file)
-		{
-			switch (file.CompressionFormat)
-			{
-				case CompressionFormat.None:
-					return file.Data.Data;
-
-				case CompressionFormat.GZip:
-					return GZip.Compress(file.Data.Data);
-
-				default:
-					throw new ArgumentOutOfRangeException();
-			}
-		}
-		
 		/// <summary>
 		/// Returns IQueryable of all files.
 		/// </summary>

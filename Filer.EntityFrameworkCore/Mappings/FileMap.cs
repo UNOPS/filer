@@ -19,6 +19,9 @@
 			entity.Property(t => t.Size).HasColumnName("Size");
 			entity.Property(t => t.CreatedOn).HasColumnName("CreatedOn");
 			entity.Property(t => t.CompressionFormatId).HasColumnName("CompressionFormat");
+			entity.Property(t => t.Owner).HasColumnName("Owner").HasMaxLength(50);
+
+			entity.HasIndex(t => t.Owner).HasName("IX_File_Owner");
 
 			entity.Ignore(t => t.CompressionFormat);
 

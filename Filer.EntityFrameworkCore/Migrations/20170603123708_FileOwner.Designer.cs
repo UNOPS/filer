@@ -8,9 +8,10 @@ using Filer.EntityFrameworkCore;
 namespace Filer.EntityFrameworkCore.Migrations
 {
     [DbContext(typeof(FileStoreContext))]
-    partial class FileStoreContextModelSnapshot : ModelSnapshot
+    [Migration("20170603123708_FileOwner")]
+    partial class FileOwner
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")

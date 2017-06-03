@@ -17,7 +17,7 @@
 		public void CanCreateFile()
 		{
 			var fileManager = new FileManager(this.dbFixture.CreateDataContext());
-			var file = fileManager.SaveFile("test.txt", "text/plain", new byte[0], CompressionFormat.GZip);
+			var file = fileManager.SaveFile("test.txt", "text/plain", new byte[0], CompressionFormat.GZip, "ef-test");
 
 			Assert.NotEqual(0, file.Id);
 			Assert.NotNull(fileManager.GetById(file.Id));

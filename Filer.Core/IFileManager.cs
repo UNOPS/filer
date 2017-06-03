@@ -21,8 +21,9 @@
 		/// <param name="mimetype">Mime type of the file.</param>
 		/// <param name="data">File's payload.</param>
 		/// <param name="compressionFormat">Type of compression to apply to a file before saving it in the database.</param>
+		/// <param name="owner"></param>
 		/// <returns>File instance.</returns>
-		File SaveFile(string filename, string mimetype, byte[] data, CompressionFormat compressionFormat);
+		File SaveFile(string filename, string mimetype, byte[] data, CompressionFormat compressionFormat, string owner);
 		
 		/// <summary>
 		/// Returns IQueryable of all files.
