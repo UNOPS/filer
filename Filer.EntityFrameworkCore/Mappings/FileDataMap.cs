@@ -8,7 +8,7 @@
 	{
 		public override void Configure(EntityTypeBuilder<FileData> entity)
 		{
-			entity.ToTable("File");
+			entity.ToTable("FileData");
 			entity.HasKey(t => t.FileId);
 
 			entity.Property(t => t.FileId).HasColumnName("Id");

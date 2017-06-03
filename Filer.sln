@@ -16,6 +16,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Filer.EntityFrameworkCore.Tests", "Filer.EntityFrameworkCore.Tests\Filer.EntityFrameworkCore.Tests.csproj", "{91187053-F97E-4EA8-9A63-13E566A112B1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,6 +32,10 @@ Global
 		{87645483-68F2-4E15-B399-A60A8E447768}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{87645483-68F2-4E15-B399-A60A8E447768}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{87645483-68F2-4E15-B399-A60A8E447768}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91187053-F97E-4EA8-9A63-13E566A112B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91187053-F97E-4EA8-9A63-13E566A112B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91187053-F97E-4EA8-9A63-13E566A112B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91187053-F97E-4EA8-9A63-13E566A112B1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
