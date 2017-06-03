@@ -29,6 +29,7 @@
 
 			modelBuilder.AddConfiguration(new FileMap());
 			modelBuilder.AddConfiguration(new FileDataMap());
+			modelBuilder.AddConfiguration(new FileContextMap());
 		}
 	}
 }
