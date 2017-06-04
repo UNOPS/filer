@@ -45,7 +45,8 @@ namespace Filer.EntityFrameworkCore.Migrations
 
                     b.Property<string>("Owner")
                         .HasColumnName("Owner")
-                        .HasMaxLength(50);
+                        .HasMaxLength(50)
+                        .IsUnicode(false);
 
                     b.Property<long>("Size")
                         .HasColumnName("Size");
@@ -56,6 +57,21 @@ namespace Filer.EntityFrameworkCore.Migrations
                         .HasName("IX_File_Owner");
 
                     b.ToTable("File");
+                });
+
+            modelBuilder.Entity("Filer.Core.FileContext", b =>
+                {
+                    b.Property<int>("FileId")
+                        .HasColumnName("FileId");
+
+                    b.Property<string>("Value")
+                        .HasColumnName("Value")
+                        .HasMaxLength(50)
+                        .IsUnicode(false);
+
+                    b.HasKey("FileId", "Value");
+
+                    b.ToTable("FileContext");
                 });
 
             modelBuilder.Entity("Filer.Core.FileData", b =>
@@ -69,6 +85,13 @@ namespace Filer.EntityFrameworkCore.Migrations
                     b.HasKey("FileId");
 
                     b.ToTable("FileData");
+                });
+
+            modelBuilder.Entity("Filer.Core.FileContext", b =>
+                {
+                    b.HasOne("Filer.Core.File", "File")
+                        .WithMany("Contexts")
+                        .HasForeignKey("FileId");
                 });
 
             modelBuilder.Entity("Filer.Core.FileData", b =>

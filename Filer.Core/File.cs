@@ -1,14 +1,22 @@
 ﻿namespace Filer.Core
 {
 	using System;
+	using System.Collections.Generic;
 
 	/// <summary>
 	/// Represents a file stored in the FileStore repository.
 	/// </summary>
 	public class File
 	{
+		/// <summary>
+		/// Max length for the <see cref="Owner"/> property.
+		/// </summary>
 		public const int OwnerMaxLength = 50;
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="File"/> class.
+		/// </summary>
+		/// <param name="owner"></param>
 		public File(string owner)
 			: this()
 		{
@@ -83,6 +91,11 @@
 		/// file, not of the compressed version in case it was compressed for database storage.
 		/// </summary>
 		public long Size { get; set; }
+
+		/// <summary>
+		/// Gets all contexts where this file is used.
+		/// </summary>
+		public virtual ICollection<FileContext> Contexts { get; protected set; }
 
 		/// <summary>
 		/// Decompresses file data and returns the original payload.

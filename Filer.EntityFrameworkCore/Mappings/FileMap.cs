@@ -19,7 +19,7 @@
 			entity.Property(t => t.Size).HasColumnName("Size");
 			entity.Property(t => t.CreatedOn).HasColumnName("CreatedOn");
 			entity.Property(t => t.CompressionFormatId).HasColumnName("CompressionFormat");
-			entity.Property(t => t.Owner).HasColumnName("Owner").HasMaxLength(50);
+			entity.Property(t => t.Owner).HasColumnName("Owner").HasMaxLength(50).IsUnicode(false);
 
 			entity.HasIndex(t => t.Owner).HasName("IX_File_Owner");
 
@@ -28,6 +28,12 @@
 			entity.HasOne(t => t.Data)
 				.WithOne()
 				.OnDelete(DeleteBehavior.Cascade);
+
+			entity.HasMany(t => t.Contexts)
+				.WithOne(t => t.File)
+				.HasForeignKey(t => t.FileId)
+				.IsRequired()
+				.OnDelete(DeleteBehavior.Restrict);
 		}
 	}
 }

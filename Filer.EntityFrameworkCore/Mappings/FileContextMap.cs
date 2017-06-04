@@ -12,7 +12,7 @@ namespace Filer.EntityFrameworkCore.Mappings
 			entity.HasKey(t => new { t.FileId, t.Value });
 
 			entity.Property(t => t.FileId).HasColumnName("FileId");
-			entity.Property(t => t.Value).HasColumnName("Value");
+			entity.Property(t => t.Value).HasColumnName("Value").HasMaxLength(FileContext.ValueMaxLength).IsUnicode(false);
 		}
 	}
 }

@@ -9,6 +9,9 @@
 		protected override void Down(MigrationBuilder migrationBuilder)
 		{
 			migrationBuilder.DropTable(
+				name: "FileContext");
+
+			migrationBuilder.DropTable(
 				name: "FileData");
 
 			migrationBuilder.DropTable(
@@ -28,9 +31,28 @@
 					Extension = table.Column<string>(maxLength: 20, nullable: true),
 					MimeType = table.Column<string>(unicode: false, maxLength: 100, nullable: true),
 					Name = table.Column<string>(maxLength: 255, nullable: true),
+					Owner = table.Column<string>(unicode: false, maxLength: 50, nullable: true),
 					Size = table.Column<long>(nullable: false)
 				},
 				constraints: table => { table.PrimaryKey("PK_File", x => x.Id); });
+
+			migrationBuilder.CreateTable(
+				name: "FileContext",
+				columns: table => new
+				{
+					FileId = table.Column<int>(nullable: false),
+					Value = table.Column<string>(unicode: false, maxLength: 50, nullable: false)
+				},
+				constraints: table =>
+				{
+					table.PrimaryKey("PK_FileContext", x => new { x.FileId, x.Value });
+					table.ForeignKey(
+						name: "FK_FileContext_File_FileId",
+						column: x => x.FileId,
+						principalTable: "File",
+						principalColumn: "Id",
+						onDelete: ReferentialAction.Restrict);
+				});
 
 			migrationBuilder.CreateTable(
 				name: "FileData",
@@ -49,6 +71,11 @@
 						principalColumn: "Id",
 						onDelete: ReferentialAction.Cascade);
 				});
+
+			migrationBuilder.CreateIndex(
+				name: "IX_File_Owner",
+				table: "File",
+				column: "Owner");
 		}
 	}
 }
