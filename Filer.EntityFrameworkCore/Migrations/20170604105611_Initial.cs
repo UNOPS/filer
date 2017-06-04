@@ -27,11 +27,11 @@
 					Id = table.Column<int>(nullable: false)
 						.Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
 					CompressionFormat = table.Column<byte>(nullable: false),
+					CreatedByUserId = table.Column<int>(nullable: true),
 					CreatedOn = table.Column<DateTime>(nullable: false),
 					Extension = table.Column<string>(maxLength: 20, nullable: true),
 					MimeType = table.Column<string>(unicode: false, maxLength: 100, nullable: true),
 					Name = table.Column<string>(maxLength: 255, nullable: true),
-					Owner = table.Column<string>(unicode: false, maxLength: 50, nullable: true),
 					Size = table.Column<long>(nullable: false)
 				},
 				constraints: table => { table.PrimaryKey("PK_File", x => x.Id); });
@@ -73,9 +73,9 @@
 				});
 
 			migrationBuilder.CreateIndex(
-				name: "IX_File_Owner",
+				name: "IX_File_CreatedByUserId",
 				table: "File",
-				column: "Owner");
+				column: "CreatedByUserId");
 		}
 	}
 }

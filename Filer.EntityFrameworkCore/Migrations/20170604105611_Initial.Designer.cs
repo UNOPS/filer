@@ -8,7 +8,7 @@ using Filer.EntityFrameworkCore;
 namespace Filer.EntityFrameworkCore.Migrations
 {
     [DbContext(typeof(FileStoreContext))]
-    [Migration("20170604042310_Initial")]
+    [Migration("20170604105611_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,6 +25,9 @@ namespace Filer.EntityFrameworkCore.Migrations
 
                     b.Property<byte>("CompressionFormatId")
                         .HasColumnName("CompressionFormat");
+
+                    b.Property<int?>("CreatedByUserId")
+                        .HasColumnName("CreatedByUserId");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnName("CreatedOn");
@@ -44,18 +47,13 @@ namespace Filer.EntityFrameworkCore.Migrations
                         .HasMaxLength(255)
                         .IsUnicode(true);
 
-                    b.Property<string>("Owner")
-                        .HasColumnName("Owner")
-                        .HasMaxLength(50)
-                        .IsUnicode(false);
-
                     b.Property<long>("Size")
                         .HasColumnName("Size");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Owner")
-                        .HasName("IX_File_Owner");
+                    b.HasIndex("CreatedByUserId")
+                        .HasName("IX_File_CreatedByUserId");
 
                     b.ToTable("File");
                 });

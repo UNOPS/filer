@@ -2,6 +2,7 @@
 {
 	using System;
 	using System.Collections.Generic;
+	using System.Linq;
 
 	/// <summary>
 	/// Represents a file stored in the FileStore repository.
@@ -9,28 +10,18 @@
 	public class File
 	{
 		/// <summary>
-		/// Max length for the <see cref="Owner"/> property.
-		/// </summary>
-		public const int OwnerMaxLength = 50;
-
-		/// <summary>
 		/// Initializes a new instance of the <see cref="File"/> class.
 		/// </summary>
-		/// <param name="owner"></param>
-		public File(string owner)
-			: this()
+		/// <param name="createdByUserId">Id of the user who created the file.</param>
+		public File(int? createdByUserId = null)
 		{
-			if (owner?.Length > OwnerMaxLength)
-			{
-				throw new ArgumentException($"Owner must be at most {OwnerMaxLength} characters long.", nameof(owner));
-			}
-
-			this.Owner = owner;
+			this.CreatedByUserId = createdByUserId;
+			this.CreatedOn = DateTime.UtcNow;
 		}
 
 		public File()
+			: this(null)
 		{
-			this.CreatedOn = DateTime.UtcNow;
 		}
 
 		/// <summary>
@@ -46,6 +37,18 @@
 		/// Gets or sets byte representation of the compression format in which the file is stored.
 		/// </summary>
 		public byte CompressionFormatId { get; set; }
+
+		/// <summary>
+		/// Gets all contexts where this file is used.
+		/// </summary>
+		public virtual ICollection<FileContext> Contexts { get; protected set; }
+
+		/// <summary>
+		/// Gets of sets id of user who created this file.
+		/// </summary>
+		/// <remarks>This property can be an arbitrary number, and in itself doesn't
+		/// have any meaning or function within <see cref="Filer"/> codebase.</remarks>
+		public int? CreatedByUserId { get; protected set; }
 
 		/// <summary>
 		/// Gets or sets the date when the file was uploaded.
@@ -81,21 +84,10 @@
 		public string Name { get; set; }
 
 		/// <summary>
-		/// Gets of sets name of owner to whom this file belongs.
-		/// </summary>
-		/// <remarks>This property can be an arbitrary string.</remarks>
-		public string Owner { get; protected set; }
-
-		/// <summary>
 		/// Gets or sets size of the file in bytes. The size is always that of the original
 		/// file, not of the compressed version in case it was compressed for database storage.
 		/// </summary>
 		public long Size { get; set; }
-
-		/// <summary>
-		/// Gets all contexts where this file is used.
-		/// </summary>
-		public virtual ICollection<FileContext> Contexts { get; protected set; }
 
 		/// <summary>
 		/// Decompresses file data and returns the original payload.
@@ -115,6 +107,22 @@
 
 				default:
 					throw new ArgumentOutOfRangeException();
+			}
+		}
+
+		/// <summary>
+		/// Attaches file to a context. All previous contexts are kept intact.
+		/// </summary>
+		/// <remarks>This operation basically adds a new <see cref="FileContext"/> to the <see cref="Contexts"/> collection.
+		/// If the file was attached to the context already, then nothing happens.</remarks>
+		/// <param name="context"></param>
+		internal void AttachToContext(string context)
+		{
+			var exists = this.Contexts.Any(t => t.Value.Equals(context, StringComparison.OrdinalIgnoreCase));
+
+			if (!exists)
+			{
+				this.Contexts.Add(new FileContext(this.Id, context));
 			}
 		}
 	}

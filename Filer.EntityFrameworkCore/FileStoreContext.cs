@@ -19,8 +19,8 @@
 		{
 		}
 
+		public DbSet<FileContext> FileContexts { get; set; }
 		public DbSet<FileData> FileData { get; set; }
-
 		public DbSet<File> Files { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)

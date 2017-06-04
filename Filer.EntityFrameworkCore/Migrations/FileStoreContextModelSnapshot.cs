@@ -1,106 +1,102 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
-using Filer.EntityFrameworkCore;
-
-namespace Filer.EntityFrameworkCore.Migrations
+﻿namespace Filer.EntityFrameworkCore.Migrations
 {
-    [DbContext(typeof(FileStoreContext))]
-    partial class FileStoreContextModelSnapshot : ModelSnapshot
-    {
-        protected override void BuildModel(ModelBuilder modelBuilder)
-        {
-            modelBuilder
-                .HasAnnotation("ProductVersion", "1.1.2")
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+	using System;
+	using Microsoft.EntityFrameworkCore;
+	using Microsoft.EntityFrameworkCore.Infrastructure;
+	using Microsoft.EntityFrameworkCore.Metadata;
 
-            modelBuilder.Entity("Filer.Core.File", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("Id");
+	[DbContext(typeof(FileStoreContext))]
+	partial class FileStoreContextModelSnapshot : ModelSnapshot
+	{
+		protected override void BuildModel(ModelBuilder modelBuilder)
+		{
+			modelBuilder
+				.HasAnnotation("ProductVersion", "1.1.2")
+				.HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<byte>("CompressionFormatId")
-                        .HasColumnName("CompressionFormat");
+			modelBuilder.Entity("Filer.Core.File", b =>
+			{
+				b.Property<int>("Id")
+					.ValueGeneratedOnAdd()
+					.HasColumnName("Id");
 
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnName("CreatedOn");
+				b.Property<byte>("CompressionFormatId")
+					.HasColumnName("CompressionFormat");
 
-                    b.Property<string>("Extension")
-                        .HasColumnName("Extension")
-                        .HasMaxLength(20)
-                        .IsUnicode(true);
+				b.Property<int?>("CreatedByUserId")
+					.HasColumnName("CreatedByUserId");
 
-                    b.Property<string>("MimeType")
-                        .HasColumnName("MimeType")
-                        .HasMaxLength(100)
-                        .IsUnicode(false);
+				b.Property<DateTime>("CreatedOn")
+					.HasColumnName("CreatedOn");
 
-                    b.Property<string>("Name")
-                        .HasColumnName("Name")
-                        .HasMaxLength(255)
-                        .IsUnicode(true);
+				b.Property<string>("Extension")
+					.HasColumnName("Extension")
+					.HasMaxLength(20)
+					.IsUnicode(true);
 
-                    b.Property<string>("Owner")
-                        .HasColumnName("Owner")
-                        .HasMaxLength(50)
-                        .IsUnicode(false);
+				b.Property<string>("MimeType")
+					.HasColumnName("MimeType")
+					.HasMaxLength(100)
+					.IsUnicode(false);
 
-                    b.Property<long>("Size")
-                        .HasColumnName("Size");
+				b.Property<string>("Name")
+					.HasColumnName("Name")
+					.HasMaxLength(255)
+					.IsUnicode(true);
 
-                    b.HasKey("Id");
+				b.Property<long>("Size")
+					.HasColumnName("Size");
 
-                    b.HasIndex("Owner")
-                        .HasName("IX_File_Owner");
+				b.HasKey("Id");
 
-                    b.ToTable("File");
-                });
+				b.HasIndex("CreatedByUserId")
+					.HasName("IX_File_CreatedByUserId");
 
-            modelBuilder.Entity("Filer.Core.FileContext", b =>
-                {
-                    b.Property<int>("FileId")
-                        .HasColumnName("FileId");
+				b.ToTable("File");
+			});
 
-                    b.Property<string>("Value")
-                        .HasColumnName("Value")
-                        .HasMaxLength(50)
-                        .IsUnicode(false);
+			modelBuilder.Entity("Filer.Core.FileContext", b =>
+			{
+				b.Property<int>("FileId")
+					.HasColumnName("FileId");
 
-                    b.HasKey("FileId", "Value");
+				b.Property<string>("Value")
+					.HasColumnName("Value")
+					.HasMaxLength(50)
+					.IsUnicode(false);
 
-                    b.ToTable("FileContext");
-                });
+				b.HasKey("FileId", "Value");
 
-            modelBuilder.Entity("Filer.Core.FileData", b =>
-                {
-                    b.Property<int>("FileId")
-                        .HasColumnName("Id");
+				b.ToTable("FileContext");
+			});
 
-                    b.Property<byte[]>("Data")
-                        .HasColumnName("Data");
+			modelBuilder.Entity("Filer.Core.FileData", b =>
+			{
+				b.Property<int>("FileId")
+					.HasColumnName("Id");
 
-                    b.HasKey("FileId");
+				b.Property<byte[]>("Data")
+					.HasColumnName("Data");
 
-                    b.ToTable("FileData");
-                });
+				b.HasKey("FileId");
 
-            modelBuilder.Entity("Filer.Core.FileContext", b =>
-                {
-                    b.HasOne("Filer.Core.File", "File")
-                        .WithMany("Contexts")
-                        .HasForeignKey("FileId");
-                });
+				b.ToTable("FileData");
+			});
 
-            modelBuilder.Entity("Filer.Core.FileData", b =>
-                {
-                    b.HasOne("Filer.Core.File")
-                        .WithOne("Data")
-                        .HasForeignKey("Filer.Core.FileData", "FileId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-        }
-    }
+			modelBuilder.Entity("Filer.Core.FileContext", b =>
+			{
+				b.HasOne("Filer.Core.File", "File")
+					.WithMany("Contexts")
+					.HasForeignKey("FileId");
+			});
+
+			modelBuilder.Entity("Filer.Core.FileData", b =>
+			{
+				b.HasOne("Filer.Core.File")
+					.WithOne("Data")
+					.HasForeignKey("Filer.Core.FileData", "FileId")
+					.OnDelete(DeleteBehavior.Cascade);
+			});
+		}
+	}
 }
