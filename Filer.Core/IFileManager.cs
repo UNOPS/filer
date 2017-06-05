@@ -9,6 +9,17 @@
 	public interface IFileManager
 	{
 		/// <summary>
+		/// Gets IQueryable of all <see cref="FileContext"/> records.
+		/// </summary>
+		IQueryable<FileContext> FileContexts { get; }
+
+		/// <summary>
+		/// Returns IQueryable of all files.
+		/// </summary>
+		/// <returns>IQueryable of files.</returns>
+		IQueryable<File> Files { get; }
+
+		/// <summary>
 		/// Attaches file to a context. All previous contexts are kept intact.
 		/// </summary>
 		/// <remarks>This operation basically adds a new <see cref="FileContext"/> to the 
@@ -17,12 +28,6 @@
 		/// <param name="fileId">If of the file.</param>
 		/// <param name="contexts">List of contexts to attach to.</param>
 		Task AttachFileToContexts(int fileId, params string[] contexts);
-
-		/// <summary>
-		/// Returns IQueryable of all files.
-		/// </summary>
-		/// <returns>IQueryable of files.</returns>
-		IQueryable<File> GetAll();
 
 		/// <summary>
 		/// Gets file by id.

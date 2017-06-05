@@ -1,5 +1,6 @@
 ﻿namespace Filer.EntityFrameworkCore.Tests
 {
+	using System.Linq;
 	using Filer.Core;
 	using Microsoft.EntityFrameworkCore;
 	using Xunit;
@@ -22,7 +23,7 @@
 
 			await fileManager.AttachFileToContexts(fileId, "invoice:123", "contract:321");
 
-			var file = await fileManager.GetAll()
+			var file = await fileManager.Files
 				.Include(t => t.Contexts)
 				.SingleOrDefaultAsync(t => t.Id == fileId);
 
@@ -35,7 +36,7 @@
 			var fileManager = new FileManager(this.dbFixture.CreateDataContext());
 			var fileId = await fileManager.SaveFile("test.txt", "text/plain", new byte[0], CompressionFormat.GZip, 12345);
 
-			var file = await fileManager.GetAll()
+			var file = await fileManager.Files
 				.SingleOrDefaultAsync(t => t.Id == fileId);
 
 			Assert.StrictEqual(12345, file.CreatedByUserId);
@@ -49,6 +50,18 @@
 
 			Assert.NotEqual(0, fileId);
 			Assert.NotNull(fileManager.GetById(fileId));
+		}
+
+		[Fact]
+		public async void CanGetFilesByContext()
+		{
+			var fileManager = new FileManager(this.dbFixture.CreateDataContext());
+			var fileId = await fileManager.SaveFile("test.txt", "text/plain", new byte[0], CompressionFormat.GZip);
+
+			await fileManager.AttachFileToContexts(fileId, "invoice:123", "contract:321");
+
+			var files = await fileManager.FileContexts.Where(t => t.Value == "invoice:123").ToListAsync();
+			Assert.True(files.Any(t => t.FileId == fileId));
 		}
 	}
 }

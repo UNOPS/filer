@@ -23,6 +23,11 @@
 		}
 
 		/// <summary>
+		/// Gets IQueryable of all <see cref="FileContext"/> records.
+		/// </summary>
+		public IQueryable<FileContext> FileContexts => this.dbContext.FileContexts.AsNoTracking();
+
+		/// <summary>
 		/// Gets file by id.
 		/// </summary>
 		/// <param name="id">File id.</param>
@@ -63,10 +68,7 @@
 		/// Returns IQueryable of all files.
 		/// </summary>
 		/// <returns>IQueryable of files.</returns>
-		public IQueryable<File> GetAll()
-		{
-			return this.dbContext.Files.AsQueryable();
-		}
+		public IQueryable<File> Files => this.dbContext.Files.AsQueryable().AsNoTracking();
 
 		/// <summary>
 		/// Attaches file to a context. All previous contexts are kept intact.
