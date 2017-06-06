@@ -1,5 +1,7 @@
 ﻿namespace Filer.Core
 {
+	using System;
+	using System.Collections.Generic;
 	using System.Linq;
 	using System.Threading.Tasks;
 
@@ -28,6 +30,31 @@
 		/// <param name="fileId">If of the file.</param>
 		/// <param name="contexts">List of contexts to attach to.</param>
 		Task AttachFileToContexts(int fileId, params string[] contexts);
+
+		/// <summary>
+		/// Delete file permanently.
+		/// </summary>
+		/// <param name="fileId">Id of file to be deleted.</param>
+		/// <param name="forceDeleteAllContexts">Indicate whether to detach file from all contexts 
+		/// before deleting. If set to "false" and file is still associated with some contexts, 
+		/// then <see cref="InvalidOperationException"/> will thrown.</param>
+		Task DeleteFile(int fileId, bool forceDeleteAllContexts = false);
+
+		/// <summary>
+		/// Delete files permanently.
+		/// </summary>
+		/// <param name="fileId">Ids of files to be deleted.</param>
+		/// <param name="forceDeleteAllContexts">Indicate whether to detach file from all contexts 
+		/// before deleting. If set to "false" and file is still associated with some contexts, 
+		/// then <see cref="InvalidOperationException"/> will thrown.</param>
+		Task DeleteFiles(IEnumerable<int> fileId, bool forceDeleteAllContexts = false);
+
+		/// <summary>
+		/// Disassociates file from a context.
+		/// </summary>
+		/// <param name="fileId">Id of the file.</param>
+		/// <param name="contexts">Context identifiers.</param>
+		Task DetachFileFromContexts(int fileId, params string[] contexts);
 
 		/// <summary>
 		/// Gets file by id.
