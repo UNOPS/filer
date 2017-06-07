@@ -162,5 +162,15 @@
 
 			await this.dbContext.SaveChangesAsync();
 		}
+
+		/// <summary>
+		/// Disassociates all files from specified contexts.
+		/// </summary>
+		/// <param name="contexts">Context identifiers.</param>
+		public async Task DetachFilesFromContexts(params string[] contexts)
+		{
+			var contextsCsv = string.Join(",", contexts.Select(t => $"'{t}'"));
+			await this.dbContext.Database.ExecuteSqlCommandAsync($"delete from FileContext where Value in ({contextsCsv})");
+		}
 	}
 }

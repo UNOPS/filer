@@ -13,7 +13,7 @@
 		/// Initializes a new instance of the <see cref="File"/> class.
 		/// </summary>
 		/// <param name="createdByUserId">Id of the user who created the file.</param>
-		public File(int? createdByUserId = null)
+		internal File(int? createdByUserId = null)
 		{
 			this.CreatedByUserId = createdByUserId;
 			this.CreatedOn = DateTime.UtcNow;
@@ -22,7 +22,7 @@
 		/// <summary>
 		/// Initializes a new instance of the File class.
 		/// </summary>
-		public File()
+		internal File()
 			: this(null)
 		{
 		}

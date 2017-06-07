@@ -13,6 +13,8 @@ namespace Filer.EntityFrameworkCore.Mappings
 
 			entity.Property(t => t.FileId).HasColumnName("FileId");
 			entity.Property(t => t.Value).HasColumnName("Value").HasMaxLength(FileContext.ValueMaxLength).IsUnicode(false);
+
+			entity.HasIndex(t => new { t.Value, t.FileId }).IsUnique();
 		}
 	}
 }

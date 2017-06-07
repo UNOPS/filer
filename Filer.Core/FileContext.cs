@@ -12,7 +12,7 @@
 		/// </summary>
 		public const int ValueMaxLength = 50;
 
-		private FileContext()
+		protected FileContext()
 		{
 		}
 
@@ -21,7 +21,7 @@
 		/// </summary>
 		/// <param name="fileId"></param>
 		/// <param name="value"></param>
-		public FileContext(int fileId, string value)
+		internal FileContext(int fileId, string value)
 		{
 			if (value?.Length > ValueMaxLength)
 			{

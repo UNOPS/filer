@@ -8,7 +8,7 @@ using Filer.EntityFrameworkCore;
 namespace Filer.EntityFrameworkCore.Migrations
 {
     [DbContext(typeof(FileStoreContext))]
-    [Migration("20170604105611_Initial")]
+    [Migration("20170607064906_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -69,6 +69,9 @@ namespace Filer.EntityFrameworkCore.Migrations
                         .IsUnicode(false);
 
                     b.HasKey("FileId", "Value");
+
+                    b.HasIndex("Value", "FileId")
+                        .IsUnique();
 
                     b.ToTable("FileContext");
                 });

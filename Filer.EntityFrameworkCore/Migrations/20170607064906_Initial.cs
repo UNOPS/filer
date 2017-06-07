@@ -76,6 +76,12 @@
 				name: "IX_File_CreatedByUserId",
 				table: "File",
 				column: "CreatedByUserId");
+
+			migrationBuilder.CreateIndex(
+				name: "IX_FileContext_Value_FileId",
+				table: "FileContext",
+				columns: new[] { "Value", "FileId" },
+				unique: true);
 		}
 	}
 }

@@ -108,5 +108,21 @@
 
 			Assert.StrictEqual(12345, file.CreatedByUserId);
 		}
+
+		[Fact]
+		public async void CanRemoveContext()
+		{
+			var fileManager = new FileManager(this.dbFixture.CreateDataContext());
+			var fileId1 = await fileManager.SaveFile("test.txt", "text/plain", new byte[0], CompressionFormat.GZip);
+			var fileId2 = await fileManager.SaveFile("test.txt", "text/plain", new byte[0], CompressionFormat.GZip);
+
+			await fileManager.AttachFileToContexts(fileId1, "invoice:1", "contract:1", "user:123");
+			await fileManager.AttachFileToContexts(fileId2, "invoice:2", "contract:2", "user:123");
+
+			await fileManager.DetachFilesFromContexts("user:123");
+
+			var userFilesExist = await fileManager.FileContexts.AnyAsync(t => t.Value == "user:123");
+			Assert.False(userFilesExist);
+		}
 	}
 }

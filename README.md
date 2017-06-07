@@ -48,4 +48,8 @@ GO
 CREATE INDEX [IX_File_CreatedByUserId] ON [File] ([CreatedByUserId]);
 
 GO
+
+CREATE UNIQUE INDEX [IX_FileContext_Value_FileId] ON [FileContext] ([Value], [FileId]);
+
+GO
 ```

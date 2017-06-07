@@ -7,7 +7,11 @@
 	/// </summary>
 	public class FileData
 	{
-		public FileData(byte[] data, CompressionFormat compressionFormat)
+		protected FileData()
+		{
+		}
+
+		internal FileData(byte[] data, CompressionFormat compressionFormat)
 		{
 			switch (compressionFormat)
 			{
