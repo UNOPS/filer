@@ -1,5 +1,6 @@
 namespace Filer.EntityFrameworkCore
 {
+	using System.Threading.Tasks;
 	using Microsoft.EntityFrameworkCore;
 
 	/// <summary>
@@ -14,8 +15,26 @@ namespace Filer.EntityFrameworkCore
 		{
 			this.DbContext = new FileStoreContext(options);
 		}
-		
+
 		// ReSharper disable once AutoPropertyCanBeMadeGetOnly.Local
 		internal FileStoreContext DbContext { get; private set; }
+
+		/// <summary>
+		/// Runs <see cref="RelationalDatabaseFacadeExtensions.Migrate"/> on the underlying <see cref="Microsoft.EntityFrameworkCore.DbContext"/>,
+		/// thus making sure database exists and all migrations are run.
+		/// </summary>
+		public void MigrateDatabase()
+		{
+			this.DbContext.Database.Migrate();
+		}
+
+		/// <summary>
+		/// Runs <see cref="RelationalDatabaseFacadeExtensions.MigrateAsync"/> on the underlying <see cref="Microsoft.EntityFrameworkCore.DbContext"/>,
+		/// thus making sure database exists and all migrations are run.
+		/// </summary>
+		public Task MigrateDatabaseAsync()
+		{
+			return this.DbContext.Database.MigrateAsync();
+		}
 	}
 }
