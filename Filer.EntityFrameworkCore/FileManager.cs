@@ -170,7 +170,7 @@
 		public async Task DetachFilesFromContexts(params string[] contexts)
 		{
 			var contextsCsv = string.Join(",", contexts.Select(t => $"'{t}'"));
-			await this.dbContext.Database.ExecuteSqlCommandAsync($"delete from FileContext where Value in ({contextsCsv})");
+			await this.dbContext.Database.ExecuteSqlCommandAsync(new RawSqlString($"delete from [FileContext] where [Value] in ({contextsCsv})"));
 		}
 	}
 }

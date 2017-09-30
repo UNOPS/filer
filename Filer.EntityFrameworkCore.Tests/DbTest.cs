@@ -94,7 +94,7 @@
 			await fileManager.AttachFileToContexts(fileId, "invoice:123", "contract:321");
 
 			var files = await fileManager.FileContexts.Where(t => t.Value == "invoice:123").ToListAsync();
-			Assert.True(files.Any(t => t.FileId == fileId));
+			Assert.Contains(files, t => t.FileId == fileId);
 		}
 
 		[Fact]
