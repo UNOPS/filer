@@ -2,12 +2,11 @@
 {
 	using Filer.Core;
 	using Microsoft.EntityFrameworkCore;
-	using Microsoft.EntityFrameworkCore.Metadata;
 	using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-	internal class FileMap : DbEntityConfiguration<File>
+	internal class FileMap : IEntityTypeConfiguration<File>
 	{
-		public override void Configure(EntityTypeBuilder<File> entity)
+		public void Configure(EntityTypeBuilder<File> entity)
 		{
 			entity.ToTable("File");
 			entity.HasKey(t => t.Id);

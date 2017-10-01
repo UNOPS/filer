@@ -4,9 +4,9 @@ namespace Filer.EntityFrameworkCore.Mappings
 	using Microsoft.EntityFrameworkCore;
 	using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-	internal class FileContextMap : DbEntityConfiguration<FileContext>
+	internal class FileContextMap : IEntityTypeConfiguration<FileContext>
 	{
-		public override void Configure(EntityTypeBuilder<FileContext> entity)
+		public void Configure(EntityTypeBuilder<FileContext> entity)
 		{
 			entity.ToTable("FileContext");
 			entity.HasKey(t => new { t.FileId, t.Value });

@@ -4,9 +4,9 @@
 	using Microsoft.EntityFrameworkCore;
 	using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-	internal class FileDataMap : DbEntityConfiguration<FileData>
+	internal class FileDataMap : IEntityTypeConfiguration<FileData>
 	{
-		public override void Configure(EntityTypeBuilder<FileData> entity)
+		public void Configure(EntityTypeBuilder<FileData> entity)
 		{
 			entity.ToTable("FileData");
 			entity.HasKey(t => t.FileId);

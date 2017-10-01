@@ -27,9 +27,9 @@
 		{
 			base.OnModelCreating(modelBuilder);
 
-			modelBuilder.AddConfiguration(new FileMap());
-			modelBuilder.AddConfiguration(new FileDataMap());
-			modelBuilder.AddConfiguration(new FileContextMap());
+			modelBuilder.ApplyConfiguration(new FileMap());
+			modelBuilder.ApplyConfiguration(new FileDataMap());
+			modelBuilder.ApplyConfiguration(new FileContextMap());
 		}
 	}
 }
