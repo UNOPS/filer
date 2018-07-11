@@ -1,12 +1,13 @@
 namespace Filer.EntityFrameworkCore
 {
+	using System;
 	using System.Threading.Tasks;
 	using Microsoft.EntityFrameworkCore;
 
 	/// <summary>
 	/// Represents a single unit of work.
 	/// </summary>
-	public class DataContext
+	public class DataContext : IDisposable
 	{
 		/// <summary>
 		/// Instantiates a new instance of the DataContext class.
@@ -18,6 +19,18 @@ namespace Filer.EntityFrameworkCore
 
 		// ReSharper disable once AutoPropertyCanBeMadeGetOnly.Local
 		internal FileStoreContext DbContext { get; private set; }
+
+		/// <inheritdoc />
+		public void Dispose()
+		{
+			if (this.DbContext != null)
+			{
+				this.DbContext.Dispose();
+				this.DbContext = null;
+			}
+
+			GC.SuppressFinalize(this);
+		}
 
 		/// <summary>
 		/// Runs <see cref="RelationalDatabaseFacadeExtensions.Migrate"/> on the underlying <see cref="Microsoft.EntityFrameworkCore.DbContext"/>,
