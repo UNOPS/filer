@@ -85,12 +85,7 @@
 		{
 			var file = await this.dbContext.Files
 				.Include(t => t.Contexts)
-				.SingleOrDefaultAsync(t => t.Id == fileId);
-
-			if (file == null)
-			{
-				throw new NullReferenceException($"File [id:{fileId}] does not exists");
-			}
+				.SingleOrExceptionAsync(fileId);
 
 			foreach (var context in contexts)
 			{
@@ -173,12 +168,7 @@
 		{
 			var file = this.dbContext.Files
 				.Include(t => t.Contexts)
-				.SingleOrDefault(t => t.Id == fileId);
-
-			if (file == null)
-			{
-				throw new NullReferenceException($"File [id:{fileId}] does not exists");
-			}
+				.SingleOrException(fileId);
 
 			foreach (var context in contexts)
 			{
@@ -223,12 +213,7 @@
 		{
 			var file = this.dbContext.Files
 				.Include(t => t.Contexts)
-				.SingleOrDefault(t => t.Id == fileId);
-
-			if (file == null)
-			{
-				throw new NullReferenceException($"File [id:{fileId}] does not exists");
-			}
+				.SingleOrException(fileId);
 
 			foreach (var context in contexts)
 			{
