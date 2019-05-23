@@ -126,5 +126,30 @@
 		/// <param name="userId">Id of the user who will be listed as file's creator (<see cref="File.CreatedByUserId"/>).</param>
 		/// <returns>Id of the newly created file.</returns>
 		Task<int> SaveFileAsync(string filename, string mimetype, byte[] data, CompressionFormat compressionFormat, int? userId = null);
+
+        /// <summary>
+        /// Create file
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <param name="mimetype"></param>
+        /// <param name="data"></param>
+        /// <param name="compressionFormat"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        File CreateFile(string filename, string mimetype, byte[] data, CompressionFormat compressionFormat, int? userId);
+
+		/// <summary>
+        /// Save file to database
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+		int SaveFileToDatabase(File file);
+
+        /// <summary>
+		/// Save file to database
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        Task<int> SaveFileToDatabaseAsync(File file);
 	}
 }

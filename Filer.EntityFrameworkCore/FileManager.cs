@@ -30,52 +30,61 @@
 		/// <inheritdoc />
 		public async Task<File> GetByIdAsync(int id)
 		{
-			return await this.dbContext.Files.FindAsync(id);
+			return await this.dbContext.Files.Include(t=>t.Data).SingleOrExceptionAsync(id);
 		}
 
 		/// <inheritdoc />
 		public File GetById(int id)
 		{
-			return this.dbContext.Files.Find(id);
+			return this.dbContext.Files.Include(t=>t.Data).SingleOrException(id);
+		}
+
+		public int SaveFileToDatabase(File file)
+		{
+			this.dbContext.Add(file);
+			this.dbContext.SaveChanges();
+			return file.Id;
+		}
+
+		public async Task<int> SaveFileToDatabaseAsync(File file)
+		{
+			this.dbContext.Add(file);
+			await this.dbContext.SaveChangesAsync();
+			return file.Id;
 		}
 
 		/// <inheritdoc />
 		public int SaveFile(string filename, string mimetype, byte[] data, CompressionFormat compressionFormat, int? userId = null)
 		{
-			var file = new File(userId)
-			{
-				Name = Path.GetFileName(filename),
-				Size = data.Length,
-				Extension = Path.GetExtension(filename),
-				MimeType = mimetype,
-				CompressionFormat = compressionFormat,
-				Data = new FileData(data, compressionFormat)
-			};
+			var file = this.CreateFile(filename, mimetype, data, compressionFormat, userId);
 
-			this.dbContext.Files.Add(file);
-			this.dbContext.SaveChanges();
-
-			return file.Id;
+			return this.SaveFileToDatabase(file);
 		}
 
 		/// <inheritdoc />
 		public async Task<int> SaveFileAsync(string filename, string mimetype, byte[] data, CompressionFormat compressionFormat, int? userId = null)
-		{
-			var file = new File(userId)
-			{
-				Name = Path.GetFileName(filename),
-				Size = data.Length,
-				Extension = Path.GetExtension(filename),
-				MimeType = mimetype,
-				CompressionFormat = compressionFormat,
-				Data = new FileData(data, compressionFormat)
-			};
+        {
+            File file = this.CreateFile(filename, mimetype, data, compressionFormat, userId);
 
-			this.dbContext.Files.Add(file);
-			await this.dbContext.SaveChangesAsync();
+            this.dbContext.Files.Add(file);
+            await this.dbContext.SaveChangesAsync();
 
-			return file.Id;
-		}
+            return file.Id;
+        }
+
+		/// <inheritdoc />
+        public File CreateFile(string filename, string mimetype, byte[] data, CompressionFormat compressionFormat, int? userId)
+        {
+            return new File(userId)
+            {
+                Name = Path.GetFileName(filename),
+                Size = data.Length,
+                Extension = Path.GetExtension(filename),
+                MimeType = mimetype,
+                CompressionFormat = compressionFormat,
+                Data = new FileData(data, compressionFormat)
+            };
+        }
 
 		/// <inheritdoc />
 		public IQueryable<File> Files => this.dbContext.Files.AsQueryable().AsNoTracking();
