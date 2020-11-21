@@ -1,7 +1,6 @@
 ﻿namespace Filer.EntityFrameworkCore.Migrations
 {
 	using System;
-	using Microsoft.EntityFrameworkCore.Metadata;
 	using Microsoft.EntityFrameworkCore.Migrations;
 
 	public partial class Initial : Migration
@@ -24,15 +23,15 @@
 				name: "File",
 				columns: table => new
 				{
-					Id = table.Column<int>(nullable: false)
-						.Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-					CompressionFormat = table.Column<byte>(nullable: false),
-					CreatedByUserId = table.Column<int>(nullable: true),
-					CreatedOn = table.Column<DateTime>(nullable: false),
-					Extension = table.Column<string>(maxLength: 20, nullable: true),
-					MimeType = table.Column<string>(unicode: false, maxLength: 100, nullable: true),
-					Name = table.Column<string>(maxLength: 255, nullable: true),
-					Size = table.Column<long>(nullable: false)
+					Id = table.Column<int>(type: "int", nullable: false)
+						.Annotation("SqlServer:Identity", "1, 1"),
+					CompressionFormat = table.Column<byte>(type: "tinyint", nullable: false),
+					CreatedByUserId = table.Column<int>(type: "int", nullable: true),
+					CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+					Extension = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+					MimeType = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
+					Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+					Size = table.Column<long>(type: "bigint", nullable: false)
 				},
 				constraints: table => { table.PrimaryKey("PK_File", x => x.Id); });
 
@@ -40,8 +39,8 @@
 				name: "FileContext",
 				columns: table => new
 				{
-					FileId = table.Column<int>(nullable: false),
-					Value = table.Column<string>(unicode: false, maxLength: 50, nullable: false)
+					FileId = table.Column<int>(type: "int", nullable: false),
+					Value = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false)
 				},
 				constraints: table =>
 				{
@@ -58,8 +57,8 @@
 				name: "FileData",
 				columns: table => new
 				{
-					Id = table.Column<int>(nullable: false),
-					Data = table.Column<byte[]>(nullable: true)
+					Id = table.Column<int>(type: "int", nullable: false),
+					Data = table.Column<byte[]>(type: "varbinary(max)", nullable: true)
 				},
 				constraints: table =>
 				{

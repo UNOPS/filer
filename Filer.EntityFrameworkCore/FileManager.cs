@@ -2,10 +2,12 @@
 {
 	using System;
 	using System.Collections.Generic;
+	using System.Data;
 	using System.IO;
 	using System.Linq;
 	using System.Threading.Tasks;
 	using Filer.Core;
+	using Microsoft.Data.SqlClient;
 	using Microsoft.EntityFrameworkCore;
 	using File = Filer.Core.File;
 
@@ -30,15 +32,20 @@
 		/// <inheritdoc />
 		public async Task<File> GetByIdAsync(int id)
 		{
-			return await this.dbContext.Files.Include(t=>t.Data).SingleOrExceptionAsync(id);
+			return await this.dbContext.Files.Include(t => t.Data).SingleOrExceptionAsync(id);
 		}
 
 		/// <inheritdoc />
 		public File GetById(int id)
 		{
-			return this.dbContext.Files.Include(t=>t.Data).SingleOrException(id);
+			return this.dbContext.Files.Include(t => t.Data).SingleOrException(id);
 		}
 
+		/// <summary>
+		/// Adds file to the database and returns its primary key.
+		/// </summary>
+		/// <param name="file">File to add.</param>
+		/// <returns>Id of the newly added file.</returns>
 		public int SaveFileToDatabase(File file)
 		{
 			this.dbContext.Add(file);
@@ -46,6 +53,11 @@
 			return file.Id;
 		}
 
+		/// <summary>
+		/// Adds file to the database and returns its primary key.
+		/// </summary>
+		/// <param name="file">File to add.</param>
+		/// <returns>Id of the newly added file.</returns>
 		public async Task<int> SaveFileToDatabaseAsync(File file)
 		{
 			this.dbContext.Add(file);
@@ -63,28 +75,28 @@
 
 		/// <inheritdoc />
 		public async Task<int> SaveFileAsync(string filename, string mimetype, byte[] data, CompressionFormat compressionFormat, int? userId = null)
-        {
-            File file = this.CreateFile(filename, mimetype, data, compressionFormat, userId);
+		{
+			File file = this.CreateFile(filename, mimetype, data, compressionFormat, userId);
 
-            this.dbContext.Files.Add(file);
-            await this.dbContext.SaveChangesAsync();
+			this.dbContext.Files.Add(file);
+			await this.dbContext.SaveChangesAsync();
 
-            return file.Id;
-        }
+			return file.Id;
+		}
 
 		/// <inheritdoc />
-        public File CreateFile(string filename, string mimetype, byte[] data, CompressionFormat compressionFormat, int? userId)
-        {
-            return new File(userId)
-            {
-                Name = Path.GetFileName(filename),
-                Size = data.Length,
-                Extension = Path.GetExtension(filename),
-                MimeType = mimetype,
-                CompressionFormat = compressionFormat,
-                Data = new FileData(data, compressionFormat)
-            };
-        }
+		public File CreateFile(string filename, string mimetype, byte[] data, CompressionFormat compressionFormat, int? userId)
+		{
+			return new File(userId)
+			{
+				Name = Path.GetFileName(filename),
+				Size = data.Length,
+				Extension = Path.GetExtension(filename),
+				MimeType = mimetype,
+				CompressionFormat = compressionFormat,
+				Data = new FileData(data, compressionFormat)
+			};
+		}
 
 		/// <inheritdoc />
 		public IQueryable<File> Files => this.dbContext.Files.AsQueryable().AsNoTracking();
@@ -238,8 +250,14 @@
 		/// <param name="contexts">Context identifiers.</param>
 		public int DetachFilesFromContexts(params string[] contexts)
 		{
-			var contextsCsv = string.Join(",", contexts.Select(t => $"'{t}'"));
-			return this.dbContext.Database.ExecuteSqlCommand(new RawSqlString($"delete from [FileContext] where [Value] in ({contextsCsv})"));
+			if (!contexts.Any())
+			{
+				return 0;
+			}
+
+			var sql = DetachFilesFromContextsSql(contexts, out var parameters);
+
+			return this.dbContext.Database.ExecuteSqlRaw(sql, parameters);
 		}
 
 		/// <summary>
@@ -248,8 +266,28 @@
 		/// <param name="contexts">Context identifiers.</param>
 		public async Task<int> DetachFilesFromContextsAsync(params string[] contexts)
 		{
-			var contextsCsv = string.Join(",", contexts.Select(t => $"'{t}'"));
-			return await this.dbContext.Database.ExecuteSqlCommandAsync(new RawSqlString($"delete from [FileContext] where [Value] in ({contextsCsv})"));
+			if (!contexts.Any())
+			{
+				return 0;
+			}
+
+			var sql = DetachFilesFromContextsSql(contexts, out var parameters);
+
+			return await this.dbContext.Database.ExecuteSqlRawAsync(sql, parameters);
+		}
+
+		private static string DetachFilesFromContextsSql(string[] contexts, out SqlParameter[] parameters)
+		{
+			var parameterNames = Enumerable
+				.Range(0, contexts.Length)
+				.Select(t => $"@context{t}")
+				.ToArray();
+
+			parameters = contexts
+				.Select((x, t) => new SqlParameter($"@context{t}", SqlDbType.NVarChar) { Value = x })
+				.ToArray();
+
+			return $"delete from [FileContext] where [Value] in ({string.Join(", ", parameterNames)})";
 		}
 	}
 }

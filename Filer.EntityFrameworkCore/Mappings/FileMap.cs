@@ -20,7 +20,7 @@
 			entity.Property(t => t.CompressionFormatId).HasColumnName("CompressionFormat");
 			entity.Property(t => t.CreatedByUserId).HasColumnName("CreatedByUserId");
 
-			entity.HasIndex(t => t.CreatedByUserId).HasName("IX_File_CreatedByUserId");
+			entity.HasIndex(t => t.CreatedByUserId).HasDatabaseName("IX_File_CreatedByUserId");
 
 			entity.Ignore(t => t.CompressionFormat);
 
