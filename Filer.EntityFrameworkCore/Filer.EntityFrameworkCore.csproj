@@ -10,6 +10,7 @@
 		<Copyright>Copyright 2020 (c) UNOPS. All rights reserved.</Copyright>
 		<PackageTags>file-management attachments filing</PackageTags>
 		<PackageProjectUrl>https://github.com/UNOPS/filer</PackageProjectUrl>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
