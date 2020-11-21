@@ -26,7 +26,7 @@
 
 			var file = fileManager.Files
 				.Include(t => t.Contexts)
-				.SingleOrDefault(t => t.Id == fileId);
+				.Single(t => t.Id == fileId);
 
 			Assert.StrictEqual(2, file.Contexts.Count);
 		}
