@@ -30,6 +30,7 @@
 			modelBuilder.ApplyConfiguration(new FileMap());
 			modelBuilder.ApplyConfiguration(new FileDataMap());
 			modelBuilder.ApplyConfiguration(new FileContextMap());
+			modelBuilder.ChangeTablesAndColumnsNamesToLowerCase();
 		}
 	}
 }
