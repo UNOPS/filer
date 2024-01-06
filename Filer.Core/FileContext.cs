@@ -12,6 +12,9 @@
 		/// </summary>
 		public const int ValueMaxLength = 50;
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="FileContext"/> class.
+		/// </summary>
 		protected FileContext()
 		{
 		}

@@ -3,8 +3,16 @@
 	using System.IO;
 	using System.IO.Compression;
 
+	/// <summary>
+	/// Provides GZip compression utilities.
+	/// </summary>
 	public static class GZip
 	{
+		/// <summary>
+		/// Compresses the specified data into GZip format.
+		/// </summary>
+		/// <param name="data">Data to compress.</param>
+		/// <returns>Data in GZip format.</returns>
 		public static byte[] Compress(byte[] data)
 		{
 			using (var compressedStream = new MemoryStream())
@@ -15,6 +23,11 @@
 			}
 		}
 
+		/// <summary>
+		/// Decompresses the specified data from GZip format.
+		/// </summary>
+		/// <param name="data">Data in GZip format.</param>
+		/// <returns>Data in its original format.</returns>
 		public static byte[] Decompress(byte[] data)
 		{
 			using (var compressedStream = new MemoryStream(data))

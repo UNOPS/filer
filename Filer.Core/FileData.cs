@@ -7,6 +7,9 @@
 	/// </summary>
 	public class FileData
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="FileData"/> class.
+		/// </summary>
 		protected FileData()
 		{
 		}
