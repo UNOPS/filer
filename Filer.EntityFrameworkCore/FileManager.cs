@@ -1,4 +1,4 @@
-﻿namespace Filer.EntityFrameworkCore
+namespace Filer.EntityFrameworkCore
 {
 	using System;
 	using System.Collections.Generic;
@@ -14,7 +14,7 @@
 	/// <summary>
 	/// Manages files in the FileStore repository.
 	/// </summary>
-	public class FileManager : IFileManager
+	public sealed class FileManager : IFileManager
 	{
 		private readonly FileStoreContext dbContext;
 
@@ -241,7 +241,6 @@
 		public void Dispose()
 		{
 			this.dbContext?.Dispose();
-			GC.SuppressFinalize(this);
 		}
 
 		/// <inheritdoc />

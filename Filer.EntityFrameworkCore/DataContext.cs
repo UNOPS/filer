@@ -7,7 +7,7 @@ namespace Filer.EntityFrameworkCore
 	/// <summary>
 	/// Represents a single unit of work.
 	/// </summary>
-	public class DataContext : IDisposable
+	public sealed class DataContext : IDisposable
 	{
 		/// <summary>
 		/// Instantiates a new instance of the DataContext class.
@@ -28,8 +28,6 @@ namespace Filer.EntityFrameworkCore
 				this.DbContext.Dispose();
 				this.DbContext = null;
 			}
-
-			GC.SuppressFinalize(this);
 		}
 
 		/// <summary>
