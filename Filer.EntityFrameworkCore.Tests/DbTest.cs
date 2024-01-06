@@ -7,19 +7,12 @@
 	using Xunit;
 
 	[Collection(nameof(DatabaseCollectionFixture))]
-	public class DbTest
+	public class DbTest(DatabaseFixture dbFixture)
 	{
-		public DbTest(DatabaseFixture dbFixture)
-		{
-			this.dbFixture = dbFixture;
-		}
-
-		private readonly DatabaseFixture dbFixture;
-
 		[Fact]
 		public void CanAttachToContext()
 		{
-			var fileManager = new FileManager(this.dbFixture.CreateDataContext());
+			var fileManager = new FileManager(dbFixture.CreateDataContext());
 			var fileId = fileManager.SaveFile("test.txt", "text/plain", Array.Empty<byte>(), CompressionFormat.GZip);
 
 			fileManager.AttachFileToContexts(fileId, "invoice:123", "contract:321");
@@ -34,7 +27,7 @@
 		[Fact]
 		public void CanCreateFile()
 		{
-			var fileManager = new FileManager(this.dbFixture.CreateDataContext());
+			var fileManager = new FileManager(dbFixture.CreateDataContext());
 			var fileId = fileManager.SaveFile("test.txt", "text/plain", Array.Empty<byte>(), CompressionFormat.GZip);
 
 			Assert.NotEqual(0, fileId);
@@ -44,7 +37,7 @@
 		[Fact]
 		public void CanDeleteFiles()
 		{
-			var fileManager = new FileManager(this.dbFixture.CreateDataContext());
+			var fileManager = new FileManager(dbFixture.CreateDataContext());
 			var fileId = fileManager.SaveFile("test.txt", "text/plain", Array.Empty<byte>(), CompressionFormat.GZip);
 
 			fileManager.AttachFileToContexts(fileId, "invoice:123", "contract:321", "order:123");
@@ -56,7 +49,7 @@
 		[Fact]
 		public void CanDeleteFilesInBulk()
 		{
-			var fileManager = new FileManager(this.dbFixture.CreateDataContext());
+			var fileManager = new FileManager(dbFixture.CreateDataContext());
 			var fileId1 = fileManager.SaveFile("test.txt", "text/plain", Array.Empty<byte>(), CompressionFormat.GZip);
 			var fileId2 = fileManager.SaveFile("test.txt", "text/plain", Array.Empty<byte>(), CompressionFormat.GZip);
 
@@ -83,7 +76,7 @@
 		[Fact]
 		public void CanDetachFiles()
 		{
-			var fileManager = new FileManager(this.dbFixture.CreateDataContext());
+			var fileManager = new FileManager(dbFixture.CreateDataContext());
 			var fileId = fileManager.SaveFile("test.txt", "text/plain", Array.Empty<byte>(), CompressionFormat.GZip);
 
 			fileManager.AttachFileToContexts(fileId, "invoice:123", "contract:321", "order:123");
@@ -99,7 +92,7 @@
 		[Fact]
 		public void CanGetFilesByContext()
 		{
-			var fileManager = new FileManager(this.dbFixture.CreateDataContext());
+			var fileManager = new FileManager(dbFixture.CreateDataContext());
 			var fileId = fileManager.SaveFile("test.txt", "text/plain", Array.Empty<byte>(), CompressionFormat.GZip);
 
 			fileManager.AttachFileToContexts(fileId, "invoice:123", "contract:321");
@@ -111,7 +104,7 @@
 		[Fact]
 		public void CanRemoveContext()
 		{
-			var fileManager = new FileManager(this.dbFixture.CreateDataContext());
+			var fileManager = new FileManager(dbFixture.CreateDataContext());
 			var fileId1 = fileManager.SaveFile("test.txt", "text/plain", Array.Empty<byte>(), CompressionFormat.GZip);
 			var fileId2 = fileManager.SaveFile("test.txt", "text/plain", Array.Empty<byte>(), CompressionFormat.GZip);
 
@@ -127,7 +120,7 @@
 		[Fact]
 		public void CanSpecifyUploader()
 		{
-			var fileManager = new FileManager(this.dbFixture.CreateDataContext());
+			var fileManager = new FileManager(dbFixture.CreateDataContext());
 
 			var fileId = fileManager.SaveFile(
 				"test.txt",

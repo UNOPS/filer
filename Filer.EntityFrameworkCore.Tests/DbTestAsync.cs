@@ -8,19 +8,12 @@
 	using Xunit;
 
 	[Collection(nameof(DatabaseCollectionFixture))]
-	public class DbTestAsync
+	public class DbTestAsync(DatabaseFixture dbFixture)
 	{
-		public DbTestAsync(DatabaseFixture dbFixture)
-		{
-			this.dbFixture = dbFixture;
-		}
-
-		private readonly DatabaseFixture dbFixture;
-
 		[Fact]
 		public async Task CanAttachToContext()
 		{
-			var fileManager = new FileManager(this.dbFixture.CreateDataContext());
+			var fileManager = new FileManager(dbFixture.CreateDataContext());
 			var fileId = await fileManager.SaveFileAsync("test.txt", "text/plain", Array.Empty<byte>(), CompressionFormat.GZip);
 
 			await fileManager.AttachFileToContextsAsync(fileId, "invoice:123", "contract:321");
@@ -35,7 +28,7 @@
 		[Fact]
 		public async Task CanCreateFile()
 		{
-			var fileManager = new FileManager(this.dbFixture.CreateDataContext());
+			var fileManager = new FileManager(dbFixture.CreateDataContext());
 			var fileId = await fileManager.SaveFileAsync("test.txt", "text/plain", Array.Empty<byte>(), CompressionFormat.GZip);
 
 			Assert.NotEqual(0, fileId);
@@ -45,7 +38,7 @@
 		[Fact]
 		public async Task CanDeleteFiles()
 		{
-			var fileManager = new FileManager(this.dbFixture.CreateDataContext());
+			var fileManager = new FileManager(dbFixture.CreateDataContext());
 			var fileId = await fileManager.SaveFileAsync("test.txt", "text/plain", Array.Empty<byte>(), CompressionFormat.GZip);
 
 			await fileManager.AttachFileToContextsAsync(fileId, "invoice:123", "contract:321", "order:123");
@@ -58,7 +51,7 @@
 		[Fact]
 		public async Task CanDeleteFilesInBulk()
 		{
-			var fileManager = new FileManager(this.dbFixture.CreateDataContext());
+			var fileManager = new FileManager(dbFixture.CreateDataContext());
 			var fileId1 = await fileManager.SaveFileAsync("test.txt", "text/plain", Array.Empty<byte>(), CompressionFormat.GZip);
 			var fileId2 = await fileManager.SaveFileAsync("test.txt", "text/plain", Array.Empty<byte>(), CompressionFormat.GZip);
 
@@ -85,7 +78,7 @@
 		[Fact]
 		public async Task CanDetachFiles()
 		{
-			var fileManager = new FileManager(this.dbFixture.CreateDataContext());
+			var fileManager = new FileManager(dbFixture.CreateDataContext());
 			var fileId = await fileManager.SaveFileAsync("test.txt", "text/plain", Array.Empty<byte>(), CompressionFormat.GZip);
 
 			await fileManager.AttachFileToContextsAsync(fileId, "invoice:123", "contract:321", "order:123");
@@ -101,7 +94,7 @@
 		[Fact]
 		public async Task CanGetFilesByContext()
 		{
-			var fileManager = new FileManager(this.dbFixture.CreateDataContext());
+			var fileManager = new FileManager(dbFixture.CreateDataContext());
 			var fileId = await fileManager.SaveFileAsync("test.txt", "text/plain", Array.Empty<byte>(), CompressionFormat.GZip);
 
 			await fileManager.AttachFileToContextsAsync(fileId, "invoice:123", "contract:321");
@@ -113,7 +106,7 @@
 		[Fact]
 		public async Task CanRemoveContext()
 		{
-			var fileManager = new FileManager(this.dbFixture.CreateDataContext());
+			var fileManager = new FileManager(dbFixture.CreateDataContext());
 			var fileId1 = await fileManager.SaveFileAsync("test.txt", "text/plain", Array.Empty<byte>(), CompressionFormat.GZip);
 			var fileId2 = await fileManager.SaveFileAsync("test.txt", "text/plain", Array.Empty<byte>(), CompressionFormat.GZip);
 
@@ -129,7 +122,7 @@
 		[Fact]
 		public async Task CanSpecifyUploader()
 		{
-			var fileManager = new FileManager(this.dbFixture.CreateDataContext());
+			var fileManager = new FileManager(dbFixture.CreateDataContext());
 
 			var fileId = await fileManager.SaveFileAsync(
 				"test.txt",
