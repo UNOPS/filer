@@ -1,12 +1,13 @@
 namespace Filer.EntityFrameworkCore
 {
-	using System;
-	using System.Collections.Generic;
 	using System.Linq;
 	using System.Threading.Tasks;
 	using Filer.Core;
 	using Microsoft.EntityFrameworkCore;
 
+	/// <summary>
+	/// Extensions for <see cref="Filer.EntityFrameworkCore"/>
+	/// </summary>
 	public static class Extensions
 	{
 		internal static File SingleOrException(this IQueryable<File> source, int fileId)
@@ -15,7 +16,7 @@ namespace Filer.EntityFrameworkCore
 
 			if (file == null)
 			{
-				throw new NullReferenceException($"File #{fileId} does not exist.");
+				throw new FileDoesNotExistException(fileId);
 			}
 
 			return file;
@@ -27,7 +28,7 @@ namespace Filer.EntityFrameworkCore
 
 			if (file == null)
 			{
-				throw new NullReferenceException($"File #{fileId} does not exist.");
+				throw new FileDoesNotExistException(fileId);
 			}
 
 			return file;
