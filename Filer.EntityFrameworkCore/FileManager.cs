@@ -50,6 +50,7 @@ namespace Filer.EntityFrameworkCore
 		{
 			this.dbContext.Add(file);
 			this.dbContext.SaveChanges();
+
 			return file.Id;
 		}
 
@@ -62,6 +63,7 @@ namespace Filer.EntityFrameworkCore
 		{
 			this.dbContext.Add(file);
 			await this.dbContext.SaveChangesAsync();
+
 			return file.Id;
 		}
 
@@ -73,7 +75,12 @@ namespace Filer.EntityFrameworkCore
 			CompressionFormat compressionFormat,
 			int? userId = null)
 		{
-			var file = this.CreateFile(filename, mimetype, data, compressionFormat, userId);
+			var file = this.CreateFile(
+				filename,
+				mimetype,
+				data,
+				compressionFormat,
+				userId);
 
 			return this.SaveFileToDatabase(file);
 		}
@@ -86,7 +93,12 @@ namespace Filer.EntityFrameworkCore
 			CompressionFormat compressionFormat,
 			int? userId = null)
 		{
-			File file = this.CreateFile(filename, mimetype, data, compressionFormat, userId);
+			File file = this.CreateFile(
+				filename,
+				mimetype,
+				data,
+				compressionFormat,
+				userId);
 
 			this.dbContext.Files.Add(file);
 			await this.dbContext.SaveChangesAsync();
