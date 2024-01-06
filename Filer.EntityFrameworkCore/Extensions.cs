@@ -46,27 +46,5 @@ namespace Filer.EntityFrameworkCore
 
 			return file;
 		}
-		
-		/// <summary>
-		/// Change entity class name to lower case.
-		/// </summary>
-		/// <param name="modelBuilder"></param>
-		public static void ChangeTablesAndColumnsNamesToLowerCase(this ModelBuilder modelBuilder)
-		{
-			foreach (var entity in modelBuilder.Model.GetEntityTypes())
-			{
-				if (entity.GetTableName() == null)
-				{
-					continue;
-				}
-
-				entity.SetTableName(entity.GetTableName()?.ToLower());
-				foreach (var p in entity.GetProperties())
-				{
-					p.SetColumnName(p.GetColumnName().ToLower());
-				}
-			}
-		}
-
 	}
 }
