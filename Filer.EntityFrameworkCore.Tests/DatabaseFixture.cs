@@ -15,7 +15,9 @@
 				.AddJsonFile("appsettings.json")
 				.Build();
 
-			this.options = new DbContextOptionsBuilder().UseSqlServer(config.GetConnectionString("filer")).Options;
+			this.options = new DbContextOptionsBuilder()
+				.UseSqlServer(config.GetConnectionString("filer"))
+				.Options;
 		}
 
 		public DataContext CreateDataContext()

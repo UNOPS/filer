@@ -16,35 +16,26 @@
 			}
 			catch (Exception ex)
 			{
-				if (allowDerivedTypes && !(ex is TException))
+				if (allowDerivedTypes && ex is not TException)
 				{
 					throw new Exception(
-						"Delegate threw exception of type " +
-						ex.GetType().Name + ", but " + typeof(TException).Name +
-						" or a derived type was expected.",
+						$"Delegate threw exception of type {ex.GetType().Name}, " +
+						$"but {typeof(TException).Name} or a derived type was expected.",
 						ex);
 				}
 
 				if (!allowDerivedTypes && ex.GetType() != typeof(TException))
 				{
 					throw new Exception(
-						"Delegate threw exception of type " +
-						ex.GetType().Name + ", but " + typeof(TException).Name +
-						" was expected.",
+						$"Delegate threw exception of type {ex.GetType().Name}, " +
+						$"but {typeof(TException).Name} was expected.",
 						ex);
 				}
 
 				return (TException)ex;
 			}
 
-			throw new Exception(
-				"Delegate did not throw expected exception " +
-				typeof(TException).Name + ".");
-		}
-
-		public static Task<Exception> ThrowsAsync(Func<Task> action)
-		{
-			return ThrowsAsync<Exception>(action, true);
+			throw new Exception($"Delegate did not throw expected exception {typeof(TException).Name}.");
 		}
 	}
 }
