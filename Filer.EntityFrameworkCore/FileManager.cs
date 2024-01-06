@@ -1,3 +1,5 @@
+﻿// ReSharper disable RedundantCast
+
 namespace Filer.EntityFrameworkCore
 {
 	using System;
@@ -283,7 +285,7 @@ namespace Filer.EntityFrameworkCore
 
 			var sql = DetachFilesFromContextsSql(contexts, out var parameters);
 
-			return this.dbContext.Database.ExecuteSqlRaw(sql, parameters);
+			return this.dbContext.Database.ExecuteSqlRaw(sql, parameters as object[]);
 		}
 
 		/// <summary>
@@ -299,7 +301,7 @@ namespace Filer.EntityFrameworkCore
 
 			var sql = DetachFilesFromContextsSql(contexts, out var parameters);
 
-			return await this.dbContext.Database.ExecuteSqlRawAsync(sql, parameters);
+			return await this.dbContext.Database.ExecuteSqlRawAsync(sql, parameters as object[]);
 		}
 
 		private static string DetachFilesFromContextsSql(string[] contexts, out SqlParameter[] parameters)
