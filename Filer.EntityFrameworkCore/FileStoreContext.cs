@@ -4,18 +4,13 @@
 	using Filer.EntityFrameworkCore.Mappings;
 	using Microsoft.EntityFrameworkCore;
 
-	internal class FileStoreContext : DbContext
+	internal class FileStoreContext(DbContextOptions options) : DbContext(options)
 	{
 		private const string DefaultConnectionString =
 			"Server=(localdb)\\mssqllocaldb;Database=filer;Trusted_Connection=True;MultipleActiveResultSets=true";
 
 		public FileStoreContext()
-			: base(new DbContextOptionsBuilder().UseSqlServer(DefaultConnectionString).Options)
-		{
-		}
-
-		public FileStoreContext(DbContextOptions options)
-			: base(options)
+			: this(new DbContextOptionsBuilder().UseSqlServer(DefaultConnectionString).Options)
 		{
 		}
 
