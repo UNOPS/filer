@@ -114,22 +114,6 @@
 		}
 
 		/// <summary>
-		/// Disassociates file from a context.
-		/// </summary>
-		/// <param name="context">Context identifier.</param>
-		internal void DetachFromContext(string context)
-		{
-			var contextsToRemove = this.Contexts
-				.Where(t => t.Value.Equals(context, StringComparison.OrdinalIgnoreCase))
-				.ToList();
-
-			foreach (var c in contextsToRemove)
-			{
-				this.Contexts.Remove(c);
-			}
-		}
-
-		/// <summary>
 		/// Attaches file to a context. All previous contexts are kept intact.
 		/// </summary>
 		/// <remarks>This operation basically adds a new <see cref="FileContext"/> to the <see cref="Contexts"/> collection.
@@ -142,6 +126,22 @@
 			if (!exists)
 			{
 				this.Contexts.Add(new FileContext(this.Id, context));
+			}
+		}
+
+		/// <summary>
+		/// Disassociates file from a context.
+		/// </summary>
+		/// <param name="context">Context identifier.</param>
+		internal void DetachFromContext(string context)
+		{
+			var contextsToRemove = this.Contexts
+				.Where(t => t.Value.Equals(context, StringComparison.OrdinalIgnoreCase))
+				.ToList();
+
+			foreach (var c in contextsToRemove)
+			{
+				this.Contexts.Remove(c);
 			}
 		}
 	}

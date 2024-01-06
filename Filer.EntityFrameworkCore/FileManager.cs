@@ -66,7 +66,12 @@
 		}
 
 		/// <inheritdoc />
-		public int SaveFile(string filename, string mimetype, byte[] data, CompressionFormat compressionFormat, int? userId = null)
+		public int SaveFile(
+			string filename,
+			string mimetype,
+			byte[] data,
+			CompressionFormat compressionFormat,
+			int? userId = null)
 		{
 			var file = this.CreateFile(filename, mimetype, data, compressionFormat, userId);
 
@@ -74,7 +79,12 @@
 		}
 
 		/// <inheritdoc />
-		public async Task<int> SaveFileAsync(string filename, string mimetype, byte[] data, CompressionFormat compressionFormat, int? userId = null)
+		public async Task<int> SaveFileAsync(
+			string filename,
+			string mimetype,
+			byte[] data,
+			CompressionFormat compressionFormat,
+			int? userId = null)
 		{
 			File file = this.CreateFile(filename, mimetype, data, compressionFormat, userId);
 
@@ -85,7 +95,12 @@
 		}
 
 		/// <inheritdoc />
-		public File CreateFile(string filename, string mimetype, byte[] data, CompressionFormat compressionFormat, int? userId)
+		public File CreateFile(
+			string filename,
+			string mimetype,
+			byte[] data,
+			CompressionFormat compressionFormat,
+			int? userId)
 		{
 			return new File(userId)
 			{

@@ -9,12 +9,23 @@ namespace Filer.EntityFrameworkCore.Mappings
 		public void Configure(EntityTypeBuilder<FileContext> entity)
 		{
 			entity.ToTable("FileContext");
-			entity.HasKey(t => new { t.FileId, t.Value });
+			entity.HasKey(
+				t => new
+				{
+					t.FileId,
+					t.Value
+				});
 
 			entity.Property(t => t.FileId).HasColumnName("FileId");
 			entity.Property(t => t.Value).HasColumnName("Value").HasMaxLength(FileContext.ValueMaxLength).IsUnicode(false);
 
-			entity.HasIndex(t => new { t.Value, t.FileId }).IsUnique();
+			entity.HasIndex(
+					t => new
+					{
+						t.Value,
+						t.FileId
+					})
+				.IsUnique();
 		}
 	}
 }

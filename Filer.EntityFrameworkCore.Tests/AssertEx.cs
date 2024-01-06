@@ -18,21 +18,27 @@
 			{
 				if (allowDerivedTypes && !(ex is TException))
 				{
-					throw new Exception("Delegate threw exception of type " +
+					throw new Exception(
+						"Delegate threw exception of type " +
 						ex.GetType().Name + ", but " + typeof(TException).Name +
-						" or a derived type was expected.", ex);
+						" or a derived type was expected.",
+						ex);
 				}
+
 				if (!allowDerivedTypes && ex.GetType() != typeof(TException))
 				{
-					throw new Exception("Delegate threw exception of type " +
+					throw new Exception(
+						"Delegate threw exception of type " +
 						ex.GetType().Name + ", but " + typeof(TException).Name +
-						" was expected.", ex);
+						" was expected.",
+						ex);
 				}
 
 				return (TException)ex;
 			}
 
-			throw new Exception("Delegate did not throw expected exception " +
+			throw new Exception(
+				"Delegate did not throw expected exception " +
 				typeof(TException).Name + ".");
 		}
 

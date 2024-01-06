@@ -42,6 +42,22 @@
 		Task AttachFileToContextsAsync(int fileId, params string[] contexts);
 
 		/// <summary>
+		/// Create file
+		/// </summary>
+		/// <param name="filename"></param>
+		/// <param name="mimetype"></param>
+		/// <param name="data"></param>
+		/// <param name="compressionFormat"></param>
+		/// <param name="userId"></param>
+		/// <returns></returns>
+		File CreateFile(
+			string filename,
+			string mimetype,
+			byte[] data,
+			CompressionFormat compressionFormat,
+			int? userId);
+
+		/// <summary>
 		/// Delete file permanently.
 		/// </summary>
 		/// <param name="fileId">Id of file to be deleted.</param>
@@ -114,7 +130,12 @@
 		/// <param name="compressionFormat">Type of compression to apply to a file before saving it in the database.</param>
 		/// <param name="userId">Id of the user who will be listed as file's creator (<see cref="File.CreatedByUserId"/>).</param>
 		/// <returns>Id of the newly created file.</returns>
-		int SaveFile(string filename, string mimetype, byte[] data, CompressionFormat compressionFormat, int? userId = null);
+		int SaveFile(
+			string filename,
+			string mimetype,
+			byte[] data,
+			CompressionFormat compressionFormat,
+			int? userId = null);
 
 		/// <summary>
 		/// Saves file in the FileStore repository asynchronously.
@@ -125,31 +146,25 @@
 		/// <param name="compressionFormat">Type of compression to apply to a file before saving it in the database.</param>
 		/// <param name="userId">Id of the user who will be listed as file's creator (<see cref="File.CreatedByUserId"/>).</param>
 		/// <returns>Id of the newly created file.</returns>
-		Task<int> SaveFileAsync(string filename, string mimetype, byte[] data, CompressionFormat compressionFormat, int? userId = null);
-
-        /// <summary>
-        /// Create file
-        /// </summary>
-        /// <param name="filename"></param>
-        /// <param name="mimetype"></param>
-        /// <param name="data"></param>
-        /// <param name="compressionFormat"></param>
-        /// <param name="userId"></param>
-        /// <returns></returns>
-        File CreateFile(string filename, string mimetype, byte[] data, CompressionFormat compressionFormat, int? userId);
+		Task<int> SaveFileAsync(
+			string filename,
+			string mimetype,
+			byte[] data,
+			CompressionFormat compressionFormat,
+			int? userId = null);
 
 		/// <summary>
-        /// Save file to database
-        /// </summary>
-        /// <param name="file"></param>
-        /// <returns></returns>
+		/// Save file to database
+		/// </summary>
+		/// <param name="file"></param>
+		/// <returns></returns>
 		int SaveFileToDatabase(File file);
 
-        /// <summary>
+		/// <summary>
 		/// Save file to database
-        /// </summary>
-        /// <param name="file"></param>
-        /// <returns></returns>
-        Task<int> SaveFileToDatabaseAsync(File file);
+		/// </summary>
+		/// <param name="file"></param>
+		/// <returns></returns>
+		Task<int> SaveFileToDatabaseAsync(File file);
 	}
 }

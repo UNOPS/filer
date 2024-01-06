@@ -33,6 +33,11 @@
 		}
 
 		/// <summary>
+		/// Gets or sets file associated with this context.
+		/// </summary>
+		public virtual File File { get; protected set; }
+
+		/// <summary>
 		/// Gets or sets if of the file.
 		/// </summary>
 		public int FileId { get; protected set; }
@@ -45,10 +50,5 @@
 		/// the context can be specified as "contract:123", or if this file is part of an invoice #321
 		/// then it can be "invoice:321".</remarks>
 		public string Value { get; protected set; }
-
-		/// <summary>
-		/// Gets or sets file associated with this context.
-		/// </summary>
-		public virtual File File { get; protected set; }
 	}
 }

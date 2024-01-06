@@ -63,9 +63,21 @@
 			fileManager.AttachFileToContexts(fileId1, "invoice:1", "contract:1", "order:3");
 			fileManager.AttachFileToContexts(fileId2, "invoice:2", "contract:2", "order:3");
 
-			Assert.Throws<InvalidOperationException>(() => fileManager.DeleteFiles(new[] { fileId1, fileId2 }));
+			Assert.Throws<InvalidOperationException>(
+				() => fileManager.DeleteFiles(
+					new[]
+					{
+						fileId1,
+						fileId2
+					}));
 
-			fileManager.DeleteFiles(new[] { fileId1, fileId2 }, true);
+			fileManager.DeleteFiles(
+				new[]
+				{
+					fileId1,
+					fileId2
+				},
+				true);
 		}
 
 		[Fact]

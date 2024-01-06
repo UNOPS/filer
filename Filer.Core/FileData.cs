@@ -29,13 +29,13 @@
 		}
 
 		/// <summary>
-		/// Gets or sets the file's ID.
-		/// </summary>
-		public int FileId { get; set; }
-
-		/// <summary>
 		/// Gets or sets the file's payload.
 		/// </summary>
 		public byte[] Data { get; set; }
+
+		/// <summary>
+		/// Gets or sets the file's ID.
+		/// </summary>
+		public int FileId { get; set; }
 	}
 }

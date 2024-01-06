@@ -64,9 +64,21 @@
 			await fileManager.AttachFileToContextsAsync(fileId1, "invoice:1", "contract:1", "order:3");
 			await fileManager.AttachFileToContextsAsync(fileId2, "invoice:2", "contract:2", "order:3");
 
-			await AssertEx.ThrowsAsync<InvalidOperationException>(async () => await fileManager.DeleteFilesAsync(new[] { fileId1, fileId2 }));
+			await AssertEx.ThrowsAsync<InvalidOperationException>(
+				async () => await fileManager.DeleteFilesAsync(
+					new[]
+					{
+						fileId1,
+						fileId2
+					}));
 
-			await fileManager.DeleteFilesAsync(new[] { fileId1, fileId2 }, true);
+			await fileManager.DeleteFilesAsync(
+				new[]
+				{
+					fileId1,
+					fileId2
+				},
+				true);
 		}
 
 		[Fact]

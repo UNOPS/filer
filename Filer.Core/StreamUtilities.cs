@@ -8,6 +8,16 @@
 	internal class StreamUtilities
 	{
 		/// <summary>
+		/// Retrieves byte array as a read-only MemoryStream.
+		/// </summary>
+		/// <param name="data">Byte array.</param>
+		/// <returns>MemoryStream instance.</returns>
+		public static MemoryStream GetReadonlyStream(byte[] data)
+		{
+			return new MemoryStream(data);
+		}
+
+		/// <summary>
 		/// Reads stream into a byte array.
 		/// </summary>
 		/// <param name="input">Stream instance.</param>
@@ -19,16 +29,6 @@
 				input.CopyTo(ms);
 				return ms.ToArray();
 			}
-		}
-
-		/// <summary>
-		/// Retrieves byte array as a read-only MemoryStream.
-		/// </summary>
-		/// <param name="data">Byte array.</param>
-		/// <returns>MemoryStream instance.</returns>
-		public static MemoryStream GetReadonlyStream(byte[] data)
-		{
-			return new MemoryStream(data);
 		}
 	}
 }
