@@ -39,7 +39,7 @@
 			var fileId = await fileManager.SaveFileAsync("test.txt", "text/plain", Array.Empty<byte>(), CompressionFormat.GZip);
 
 			Assert.NotEqual(0, fileId);
-			Assert.NotNull(fileManager.GetById(fileId));
+			Assert.NotNull(await fileManager.GetByIdAsync(fileId));
 		}
 
 		[Fact]
@@ -130,7 +130,13 @@
 		public async Task CanSpecifyUploader()
 		{
 			var fileManager = new FileManager(this.dbFixture.CreateDataContext());
-			var fileId = await fileManager.SaveFileAsync("test.txt", "text/plain", Array.Empty<byte>(), CompressionFormat.GZip, 12345);
+
+			var fileId = await fileManager.SaveFileAsync(
+				"test.txt",
+				"text/plain",
+				Array.Empty<byte>(),
+				CompressionFormat.GZip,
+				12345);
 
 			var file = await fileManager.Files
 				.SingleOrDefaultAsync(t => t.Id == fileId);

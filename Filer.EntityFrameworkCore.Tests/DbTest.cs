@@ -128,7 +128,13 @@
 		public void CanSpecifyUploader()
 		{
 			var fileManager = new FileManager(this.dbFixture.CreateDataContext());
-			var fileId = fileManager.SaveFile("test.txt", "text/plain", Array.Empty<byte>(), CompressionFormat.GZip, 12345);
+
+			var fileId = fileManager.SaveFile(
+				"test.txt",
+				"text/plain",
+				Array.Empty<byte>(),
+				CompressionFormat.GZip,
+				12345);
 
 			var file = fileManager.Files
 				.Single(t => t.Id == fileId);
