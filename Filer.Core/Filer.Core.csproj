@@ -10,7 +10,7 @@
 		<PackageTags>file-management attachments filing</PackageTags>
 		<PackageProjectUrl>https://github.com/UNOPS/filer</PackageProjectUrl>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<TargetFramework>net7.0</TargetFramework>
+		<TargetFramework>net8.0</TargetFramework>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
